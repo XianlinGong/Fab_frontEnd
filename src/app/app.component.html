@@ -1,20 +1,272 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color:navy">
+  <div class="container">
+  <a class="navbar-brand" href="#" ><img src="../assets/img/fab-logo-o.png" class="img-fluid" width="70px;" style="margin-bottom:-20px; margin-left:-10px ;margin-right:10px;" ><span style="font-size:1em;"><i><b>Fabcoin.co</b></i></span></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <!--<li class="nav-item active text-center">
+        <a class="nav-link" href="#">Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>-->
+      <li class="nav-item text-center">
+          <a class="nav-link" href="#" (click)="ciClicked()">Chain Information</a>
+        </li> 
+      <li class="nav-item text-center">
+        <a class="nav-link" href="#" (click)="biClicked()">Search Block</a>
+      </li> 
+      <li class="nav-item text-center">
+        <a class="nav-link" href="#" (click)="tiClicked()">Search Transaction</a>
+      </li>
+    </ul>
+  </div>
+  </div>
+</nav>
+
+
+<div class="container" style="word-wrap: break-word; margin-top:100px; margin-bottom:100px;">
+  <div style="text-align:center">
+    <h1>
+      Welcome to {{ title }}!
+    </h1>
+  </div>
+
+<!--
+  <div class="row">
+    <div style="float:none;margin:0 auto;">
+      <button class="btn btn-primary mb-4 ml-4" (click)="localClicked()" [ngStyle]="{'background-color':localBtnColor}">Local</button>
+      <button class="btn btn-primary mb-4 ml-4" (click)="remoteClicked()" [ngStyle]="{'background-color':remoteBtnColor}">Remote</button>
+    </div>
+  </div>
+-->
+<!--
+  <div class="row">
+    <div style="float:none;margin:0 auto;">
+      <button class="btn btn-primary mb-4 ml-4" (click)="tmClicked()">Transaction Memory Pool</button>
+      <button class="btn btn-primary mb-4 ml-4" (click)="ciClicked()">Chain Information</button>
+      <button class="btn btn-primary mb-4 ml-4" (click)="tiClicked()"> Transaction Information</button>
+      <button class="btn btn-primary mb-4 ml-4" (click)="biClicked()">Block Information</button>
+    </div>
+  </div>
+-->
+
+  <div class="container" *ngIf="myMemPoolInfo && isTmActive">
+    <h2 class="primary">Transaction Memory Pool</h2>
+
+    <ul class="list-group">
+      <li class="list-group-item">Size : {{myMemPoolInfo.mSize}}</li>
+      <li class="list-group-item">Bytes : {{myMemPoolInfo.mBytes}}</li>
+      <li class="list-group-item">Usage : {{myMemPoolInfo.mUsage}}</li>
+      <li class="list-group-item">Maximum Memory Usage : {{myMemPoolInfo.mMaxMemPool}}</li>
+      <li class="list-group-item">Minimum fee rate for Tx to be accapted : {{myMemPoolInfo.mMemPoolMinFee}}</li>
+    </ul>
+
+  </div>
+
+  <div class="container" *ngIf="!myMemPoolInfo && isTmActive">
+    <h2 class="primary">Transaction Memory Pool not available</h2>
+  </div>
+
+  <div class="container" *ngIf="myChainInfo && isCiActive">
+    <h2 class="primary">Chain Information</h2>
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <span style="color:navy;"> Chain</span> : {{myChainInfo.mChain}}</li>
+      <li class="list-group-item">Blocks : {{myChainInfo.mBlocks}}</li>
+      <li class="list-group-item">Headers : {{myChainInfo.mHeaders}}</li>
+      <li class="list-group-item">
+        Best Block Hash : <a href="#" (click)="showCurrentBlockFromChain();"  > {{myChainInfo.mBestBlockHash}} </a>
+      </li>
+      <li class="list-group-item">Difficulty : {{myChainInfo.mDifficulty}}</li>
+      <li class="list-group-item">Median Time : {{myChainInfo.mMedianTime}} </li>
+      <li class="list-group-item">Verification Progress : {{myChainInfo.mVerificationProgress}} </li>
+      <li class="list-group-item">Chain Work : {{myChainInfo.mChainWork}} </li>
+      <li class="list-group-item">Pruned : {{myChainInfo.mPruned}} </li>
+    <!--    
+      <li class="list-group-item">
+        <h3>Soft Forks</h3>
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let sf of myChainInfo.mSoftForks">
+            Index : {{sf.mIndex}}
+            <br> ID : {{sf.mId}}
+            <br> Version : {{sf.mVersion}}
+            <br> Status : {{sf.mStatus}}
+          </li>
+        </ul>
+      </li>
+
+      <li class="list-group-item">
+        <h3>bip9_Soft_Forks</h3>
+        <ul class="list-group">
+
+          <li class="list-group-item">
+            <h4>CSV</h4>
+            Status : {{myChainInfo.mBip9_csv_softFork.mStatus}}
+            <br> Start Time : {{myChainInfo.mBip9_csv_softFork.mStartTime}}
+            <br> Time Out : {{myChainInfo.mBip9_csv_softFork.mTimeOut}}
+            <br> Since : {{myChainInfo.mBip9_csv_softFork.mSince}}
+          </li>
+
+          <li class="list-group-item">
+            <h4>Segwit</h4>
+            Status : {{myChainInfo.mBip9_segwit_softFork.mStatus}}
+            <br> Start Time : {{myChainInfo.mBip9_segwit_softFork.mStartTime}}
+            <br> Time Out : {{myChainInfo.mBip9_segwit_softFork.mTimeOut}}
+            <br> Since : {{myChainInfo.mBip9_segwit_softFork.mSince}}
+          </li>
+        </ul>
+      </li>
+
+    -->
+
+
+    </ul>
+
+  </div>
+
+  <div class="container" *ngIf="!myChainInfo && isCiActive">
+    <h2>Chain Information Not Available</h2>
+  </div>
+
+  <div class="containter" *ngIf="isTiActive">
+
+    <h1>Transaction Information</h1>
+    <div class="form-group">
+      <label>Transaction Id</label>
+      <input class="form-control" placeholder="Enter Transaction Id" #tId>
+    </div>
+    <button class="btn btn-primary" (click)="getTransactionInformation(tId.value)">Submit</button>
+
+    <!-- when the transaction is loaded-->
+    <div *ngIf="myTransactionInfo">
+      <h2 class="primary">Transaction Info</h2>
+
+      <ul class="list-group">
+        <li class="list-group-item">Transaction Id : {{myTransactionInfo.mTxid }}</li>
+        <li class="list-group-item">Hash : {{myTransactionInfo.mHash }}</li>
+        <li class="list-group-item">Version : {{myTransactionInfo.mVersion }}</li>
+        <li class="list-group-item">Size : {{myTransactionInfo.mSize }}</li>
+        <li class="list-group-item">VSize : {{myTransactionInfo.mVsize }}</li>
+        <li class="list-group-item">Lock time : {{myTransactionInfo.mLocktime }}</li>
+
+        <li class="list-group-item" *ngIf="myTransactionInfo.mVin">
+          <h3>V_In</h3>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let vn of myTransactionInfo.mVin">
+              Index : {{vn.mIndex}}
+              <br> Coinbase : {{vn.mCoinbase}}
+              <br> Sequence : {{vn.mSequence}}
+            </li>
+          </ul>
+        </li>
+
+        <li class="list-group-item" *ngIf="myTransactionInfo.mVout">
+          <h3>V_Out</h3>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let vt of myTransactionInfo.mVout">
+
+
+              <ul class="list-group">
+                Index : {{vt.mIndex}}
+                <li class="list-group-item"> Value : {{vt.mValue}}</li>
+                <li class="list-group-item"> n : {{vt.mN}}</li>
+                <li class="list-group-item"> ScriptPubKey-ASM : {{vt.mScriptPubKeyAsm}}</li>
+                <li class="list-group-item">ScriptPubKey-Hex : {{vt.mScriptPubKeyHex}}</li>
+                <li class="list-group-item"> ScriptPubKeyReqSigs : {{vt.mScriptPubKeyReqSigs}}</li>
+                <li class="list-group-item">ScriptPubKeyType : {{vt.mScriptPubKeyType}}</li>
+                <li class="list-group-item">
+
+                  <h5>Addresses</h5>
+                  <div *ngFor="let ad of vt.mAddresses">{{ad}}
+
+                  </div>
+                </li>
+              </ul>
+
+            </li>
+          </ul>
+        </li>
+
+        <li class="list-group-item">Block Hash : <a href="#" (click)="showBlockOfCurrentTransaction()"> {{myTransactionInfo.mBlockHash }} </a></li>
+        <li class="list-group-item">Hex : {{myTransactionInfo.mHex }}</li>
+
+      </ul>
+
+    </div>
+
+    <div *ngIf="!myTransactionInfo &&  tId.value ">
+      <h2>The given Transaction Id is invalid.</h2>
+    </div>
+
+  </div>
+
+
+  <div class="container" *ngIf="isBiActive">
+    <h1>Block Information</h1>
+    <div class="form-group">
+      <label>block Hash</label>
+      <input class="form-control" placeholder="Enter Block Hash" #bId>
+
+      <button class="btn btn-primary m-4" (click)="getBlockInformation(bId.value)">Submit</button>
+    </div>
+    <div *ngIf="!myBlockInfo &&  bId.value ">
+      <h2>The given Block Hash is invalid.</h2>
+    </div>
+
+    <div class="container">
+      <div *ngIf="myBlockInfo">
+        <ul class="list-group">
+
+          <li class="list-group-item">Block Hash : {{myBlockInfo.mHash}} </li>
+          <li class="list-group-item"> Previous Block Hash : <a href="#" (click)="showPreviousBlockOfCurrentBlock()"> {{myBlockInfo.mPreviousBlockHash}} </a> </li>
+
+          <li class="list-group-item">Confirmations : {{myBlockInfo.mConfirmations}} </li>
+          <li class="list-group-item">Stripped Size : {{myBlockInfo.mStrippedSize}} </li>
+          <li class="list-group-item">Size : {{myBlockInfo.mSize}} </li>
+          <li class="list-group-item">Weight : {{myBlockInfo.mWeight}} </li>
+          <li class="list-group-item">Height :{{myBlockInfo.mHeight}} </li>
+          <li class="list-group-item">Version : {{myBlockInfo.mHeight}} </li>
+          <li class="list-group-item">Version_Hex : {{myBlockInfo.mVersionHex}} </li>
+          <li class="list-group-item"> Merkle Root : {{myBlockInfo.mMerkleRoot}} </li>
+
+          <li class="list-group-item">
+
+            <h3>Transactions</h3>
+            <ul class="list-group">
+
+
+              <li class="list-group-item" *ngFor="let tx of myBlockInfo.mTransactions">
+
+                <ul class="list-group">
+                  <li class="list-group-item">  Transaction Id : <a href="#"  (click)="getTransactionInformation(tx.mTxid)"> {{tx.mTxid }}</a></li>
+                  <li class="list-group-item">Hash : {{tx.mHash }}</li>
+                </ul>
+
+              </li>
+
+            </ul>
+          </li>
+
+
+          <li class="list-group-item"> Time : {{myBlockInfo.mTime}} </li>
+          <li class="list-group-item"> Median Time : {{myBlockInfo.mMedianTime}} </li>
+          <li class="list-group-item"> NonceUint32 : {{myBlockInfo.mNonceUint32}} </li>
+          <li class="list-group-item"> Nonce : {{myBlockInfo.mNonce}} </li>
+          <li class="list-group-item"> Bits : {{myBlockInfo.mBits}} </li>
+          <li class="list-group-item"> Difficulty : {{myBlockInfo.mDifficulty}} </li>
+          <li class="list-group-item"> ChainWork : {{myBlockInfo.mChainwork}} </li>
+       
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
