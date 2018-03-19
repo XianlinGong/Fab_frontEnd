@@ -1,7 +1,7 @@
-<!--The content below is only a placeholder and can be replaced.-->
 
-
-
+<head>
+  <title>{{title}}</title>
+</head>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color:navy">
   <div class="container">
@@ -20,14 +20,11 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <!--<li class="nav-item active text-center">
-        <a class="nav-link" href="#">Home
-          <span class="sr-only">(current)</span>
-        </a>
-      </li>-->
+
         <li class="nav-item text-center">
           <a class="nav-link" href="#" (click)="ciClicked()">Chain Information</a>
         </li>
+
         <li class="nav-item text-center">
           <a class="nav-link" href="#" (click)="biClicked()">Search Block</a>
         </li>
@@ -38,6 +35,7 @@
     </div>
   </div>
 </nav>
+
 
 
 
@@ -103,7 +101,7 @@
         <li class="list-group-item">Verification Progress : {{myChainInfo.mVerificationProgress}} </li>
         <li class="list-group-item">Chain Work : {{myChainInfo.mChainWork}} </li>
         <li class="list-group-item">Pruned : {{myChainInfo.mPruned}} </li>
-      
+
 
       </ul>
 
@@ -224,26 +222,18 @@
             <li class="list-group-item"> Merkle Root : {{myBlockInfo.mMerkleRoot}} </li>
 
             <li class="list-group-item">
-
               <h3>Transactions</h3>
               <ul class="list-group">
-
-
                 <li class="list-group-item" *ngFor="let tx of myBlockInfo.mTransactions">
-
-
                   <ul class="list-group">
                     <li class="list-group-item"> Transaction Id :
                       <a href="#" (click)="getTransactionInformation(tx.mTxid)"> {{tx.mTxid }}</a>
                     </li>
                     <li class="list-group-item">Hash : {{tx.mHash }}</li>
                   </ul>
-
                 </li>
-
               </ul>
             </li>
-
 
             <li class="list-group-item"> Time : {{myBlockInfo.mTime}} </li>
             <li class="list-group-item"> Median Time : {{myBlockInfo.mMedianTime}} </li>
