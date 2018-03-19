@@ -30,18 +30,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 #For Testing purposes
 
-Remote Block : 000e04e2e774cfc0d37f0ba3373d32a178cdae9e1be3fddaed0b279d6b7b71fa
+Block : 000e04e2e774cfc0d37f0ba3373d32a178cdae9e1be3fddaed0b279d6b7b71fa
 
-Remote Tx:
-8851bd36fe89c6c807f02b7045a60bc1cdfedf41d060c286e97dfb7a5c3905db
-
-
-
-        Local Block: 385925d8a73ac96cff7faa086854b45422492f744be594f3b79ab51789c40439
-
-
-Local Tx:
-f8f092cf9cf096cded525b6993e73ea623e7493a6a67757999ef4b2f58805c73
-
+Transaction : 8851bd36fe89c6c807f02b7045a60bc1cdfedf41d060c286e97dfb7a5c3905db
 
 
