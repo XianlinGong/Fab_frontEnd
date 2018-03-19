@@ -246,6 +246,7 @@
 
               <li class="list-group-item" *ngFor="let tx of myBlockInfo.mTransactions">
 
+                
                 <ul class="list-group">
                   <li class="list-group-item">  Transaction Id : <a href="#"  (click)="getTransactionInformation(tx.mTxid)"> {{tx.mTxid }}</a></li>
                   <li class="list-group-item">Hash : {{tx.mHash }}</li>

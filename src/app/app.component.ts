@@ -56,6 +56,7 @@ export class AppComponent {
     this.http.get('https://chain.so/api/v2/get_info/DOGE').subscribe(data => { console.log('from chain.so'); console.log(data) })
     this.http.get(this.configURL + 'rest/chaininfo.json').subscribe(data => { console.log('from Fabcoin Server'); console.log(data) });
 
+    this.ciClicked();
     //this.http.post('http://35.182.160.212:18667/rest/chaininfo.json',{'access-control-allow-origin':'*', 'Content-Type': 'application/json'}).subscribe(data=>console.log(data));
 
 
