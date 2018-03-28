@@ -1,20 +1,313 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<!--<app-chain-info></app-chain-info>
+<app-block-info></app-block-info> -->
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">  
 
+<head>
+  <title>{{title}}</title>
+</head>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="font-family: 'Titillium Web', sans-serif; ">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="../assets/img/fab-logo-o.png" class="img-fluid" width="70px;" style="margin-bottom:-20px; margin-left:-10px ;margin-right:10px;">
+      <span style="font-size:1em;">
+        <i>
+          <b>Fabcoin.co</b>
+        </i>
+      </span>
+    </a>
+    <button id="tgl" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item text-center">
+          <a class="nav-link" href="#" (click)="latestBlocksClicked()">Latest Blocks</a>
+        </li>
+
+        <li class="nav-item text-center">
+          <a class="nav-link" href="#" (click)="chainInfoClicked()">Chain Information</a>
+        </li>
+
+        <li class="nav-item text-center">
+          <a class="nav-link" href="#" (click)="searchBlockClicked()" >Search Block</a>
+        </li>
+        <li class="nav-item text-center">
+          <a class="nav-link" href="#" (click)="searchTransactionClicked()" >Search Transaction</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container text-truncate" *ngIf="isBlockTableActive" style="font-family: 'Titillium Web', sans-serif; ">
+
+ <!-- <h4 class="text-center" style="margin-top:10px;">Welcome to Fabcoin Explorer</h4> -->
+  <h3 class="text-center m-4">Latest Blocks</h3>
+  <div class="text-right col-lg-8 offset-lg-2 col-md-12">
+
+    <button type="button" [disabled]="disableBackwardButton" class="btn btn-primary btn-lg m-2" (click)="backButtonClicked()">
+      <i class="fa fa-backward"></i>
+    </button>
+    <button type="button" [disabled]="disableForwardButton" class="btn btn-primary btn-lg m-2" (click)="forwardButtonClicked()">
+      <i class="fa fa-forward"></i>
+    </button>
+
+  </div>
+  <div class="table-responsive col-lg-8 offset-lg-2 col-md-12 ">
+
+    <table class="table">
+      <thead>
+        <tr class="text-center">
+          <th scope="col">Height</th>
+          <th class="text-nowrap" scope="col">Mined On</th>
+          <th scope="col">Transactions</th>
+          <th scope="col">Size</th>
+          <th scope="col">Confirmations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="text-center" *ngFor="let block of curFiveBlocks">
+          <th scope="row">
+            <a href="#" (click)="blockClicked(block.height)">{{block.height}} </a>
+          </th>
+          <td>
+            <span class="text-nowrap"> {{ block.date | date:'MMM dd, yyyy '}} </span>
+            <br>
+            <span>{{block.date | date:' hh:mm a' }}</span>
+          </td>
+          <td>{{block.tx.length}} </td>
+          <td>{{block.size}}</td>
+          <td>{{block.confirmations}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <!-- <ul class="pagination pagination-lg">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">1</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+    </ul> -->
+
+
+  </div>
+  <!--
+<p > <span><span *ngFor="let block of curFiveBlocks" >{{block.height}}<br></span></span> </p>
+-->
+</div>
+
+<div class="container text-truncate" *ngIf="isBiActive" style="font-family: 'Titillium Web', sans-serif; ">
+        <h1 class="text-center">Block Information</h1>
+        <div class="form-group">
+          <label>block Hash</label>
+          <input class="form-control" placeholder="Enter Block Hash" #bId>
+    
+          <div class="text-right">
+            <button class="btn btn-primary m-4" (click)="searchBlockById(bId.value)">Submit</button>
+          </div>
+        </div>
+        <div *ngIf="!currentBlock &&  bId.value ">
+          <h2>The given Block Hash is invalid.</h2>
+        </div>
+    
+      
+      </div>
+
+
+<div class="container " *ngIf="(isBlockViewActive && currentBlock)" style="font-family: 'Titillium Web', sans-serif; ">
+
+
+
+    
+
+  <h2 class="text-center m-4">Block # {{currentBlock.height}} </h2>
+  <h5 class="text-center m-4 text-truncate">Hash # {{currentBlock.hash}} </h5>
+  <div class="card">
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <p class="text-truncate m-4">
+
+          <b> Height : </b>{{currentBlock.height}}
+          <br>
+          <b> Previous Block :</b>
+          <a href="#" *ngIf="previousBlock" (click)="previousBlockClicked()"> {{previousBlock.height}}  </a>
+
+          <br>
+          <b> Difficulty :</b> {{currentBlock.difficulty}}
+          <br>
+          <b> Mined On :</b>{{currentBlock.date | date :'MMM dd, yyyy - hh:mm a'}}
+          <br>
+          <b>Size :</b> {{currentBlock.size}}
+          <br>
+          <b> Version :</b>{{currentBlock.version}}
+          <br>
+          <b>Merkle Root :</b> {{currentBlock.merkleroot}}
+          <br>
+
+        </p>
+      </div>
+
+
+      <div class="col-md-6">
+        <div class=" m-4">
+
+         <!-- <b> Height : </b>{{currentBlock.height}} <br> -->
+          <b> Next Block :</b>
+          <span *ngIf="nextBlock && currentBlock.height !== nextBlock.height">
+            <a href="#" (click)="nextBlockClicked()"> {{nextBlock.height}}</a>
+          </span>
+          <span *ngIf="!nextBlock || currentBlock.height === nextBlock.height">No New Block</span>
+
+          <br>
+          <b> Transactions :</b>{{currentBlock.tx.length}}
+          <br>
+          <b> Bits :</b>{{currentBlock.bits}}
+          <br>
+          <b>Size :</b> {{currentBlock.size}}
+
+          <br>
+          <b> Nonce :</b>
+          <div style="   
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              text-align: right;
+              text-align: left;direction: rtl;"> {{currentBlock.nonce}}</div>
+          <b>Solution :</b>
+          <!-- add solution here -->
+          <br>
+
+        </div>
+      </div>
+      <div class="col-md-12 text-truncate">
+      <li class="list-group-item">
+          <h3 class="text-center" >Transactions</h3>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let tx of myBlockInfo.tx">
+              <ul class="list-group">
+                <li class="list-group-item text-truncate"> Transaction Id :
+                  <a href="#" (click)="TxFromBlockClicked(tx.txid)" > {{tx.txid  }}</a>
+                </li>
+                <li class="list-group-item text-truncate">Hash : {{tx.hash }}</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        </div>
+    </div>
+  </div>
+
+
+</div>
+
+<div class="container text-truncate" *ngIf="isChainInfoActive" style="font-family: 'Titillium Web', sans-serif; ">
+
+  <div class="col-lg-8 offset-lg-2 text-truncate" *ngIf="myChainInfo && isChainInfoActive">
+    <h1 class="primary text-center">Chain Information</h1>
+
+    <ul class="list-group">
+      <li class="list-group-item">Chain : {{myChainInfo.chain}}</li>
+      <li class="list-group-item">Blocks : {{myChainInfo.blocks}}</li>
+      <li class="list-group-item">Headers : {{myChainInfo.headers}}</li>
+      <li class="list-group-item text-truncate">
+        Best Block Hash :
+        <a href="#" (click)="blockHashClicked(myChainInfo.bestblockhash)"> {{myChainInfo.bestblockhash}} </a>
+      </li>
+      <li class="list-group-item">Difficulty : {{myChainInfo.difficulty}}</li>
+      <li class="list-group-item">Median Time : {{myChainInfo.mediantime}} </li>
+      <li class="list-group-item">Verification Progress : {{myChainInfo.verificationprogress}} </li>
+      <li class="list-group-item">Chain Work : <div style="   
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-align: right;
+        text-align: left;direction: rtl;"> {{myChainInfo.chainwork}} </div> </li>
+      <li class="list-group-item">Pruned : {{myChainInfo.pruned}} </li>
+
+    </ul>
+  </div>
+</div>
+
+
+<div class="container" *ngIf="isTiActive"  style="font-family: 'Titillium Web', sans-serif; ">
+
+    <h1 class="text-center">Transaction Information</h1>
+    <div class="form-group">
+      <label>Transaction Id</label>
+      <input class="form-control" placeholder="Enter Transaction Id" #tId>
+
+      <div class="text-right">
+        <button class="btn btn-primary m-4 " (click)="setTransactionInfo(tId.value)">Submit</button>
+      </div>
+    </div>
+    <!-- when the transaction is loaded-->
+    <div *ngIf="myTransactionInfo" class="text-truncate">
+      <h2 class="primary ">Transaction Info</h2>
+
+      <ul class="list-group text-truncate" >
+        <li class="list-group-item text-truncate">Transaction Id : {{myTransactionInfo.txid }}</li>
+        <li class="list-group-item text-truncate">Block Hash :
+          <a href="#" (click)="blockHashClicked(myTransactionInfo.blockhash)"> {{myTransactionInfo.blockhash }} </a>
+        </li>
+        <li class="list-group-item text-truncate">Hash : {{myTransactionInfo.hash }}</li>
+        <li class="list-group-item">Version : {{myTransactionInfo.version }}</li>
+        <li class="list-group-item">Size : {{myTransactionInfo.size }}</li>
+        <li class="list-group-item">VSize : {{myTransactionInfo.vsize }}</li>
+        <li class="list-group-item">Lock time : {{myTransactionInfo.locktime }}</li>
+
+        <li class="list-group-item" *ngIf="myTransactionInfo.vin">
+          <h3>V_In</h3>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let vn of myTransactionInfo.vin">
+               Coinbase : {{vn.coinbase}}
+              <br> Sequence : {{vn.sequence}}
+            </li>
+          </ul>
+        </li>
+
+        <li class="list-group-item" *ngIf="myTransactionInfo.vout">
+          <h3>V_Out</h3>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let vt of myTransactionInfo.vout">
+
+
+              <ul class="list-group">
+                <li class="list-group-item"> Value : {{vt.value}}</li>
+                <li class="list-group-item"> n : {{vt.n}}</li>
+                <li class="list-group-item text-truncate"> ScriptPubKey-ASM : {{vt.scriptPubKey.asm }}</li>
+                <li class="list-group-item text-truncate">ScriptPubKey-Hex : {{vt.scriptPubKey.hex}}</li>
+                <li class="list-group-item"> ScriptPubKeyReqSigs : {{vt.scriptPubKey.reqSigs}}</li>
+                <li class="list-group-item">ScriptPubKeyType : {{vt.scriptPubKey.type}}</li>
+                <li class="list-group-item">
+
+                  <h5>Addresses</h5>
+                  <div *ngFor="let ad of vt.scriptPubKey.addresses" class="text-truncate">{{ad}}
+
+                  </div>
+                </li>
+              </ul>
+
+            </li>
+          </ul>
+        </li>
+
+        <!-- <li class="list-group-item">Block Hash : <a href="#" (click)="showBlockOfCurrentTransaction()"> {{myTransactionInfo.mBlockHash }} </a></li> -->
+        <li class="list-group-item text-truncate">Hex : {{myTransactionInfo.hex }}</li>
+
+      </ul>
+
+    </div>
+
+    <div *ngIf="!myTransactionInfo &&  tId.value ">
+      <h2>The given Transaction Id is invalid.</h2>
+    </div>
+
+</div>
